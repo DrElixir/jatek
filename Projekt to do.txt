@@ -1,0 +1,24 @@
+Márk-Andris:
+Alapvető függvények és function kialakitás
+minimális kód rendezés
+saját változok behozatal
+a saját  ASCII modell helyek kialakitása
+saját story import
+Endingek megírása és lekodolása
+
+
+
+Toto-Benedek:
+ASCII artok megcsinálása, mainly pince elsőkörben, aztán a tobbi
+-Pince
+-Földszint
+-Első szint
+-Második szint
+
+later:
+-szoba
+-Itemek
+-Folyoso-(Különbözö jelenetek)
+-Story pontos fogalmazása
+
+
