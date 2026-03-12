@@ -4,7 +4,7 @@ minimális kód rendezés
 saját változok behozatal
 a saját  ASCII modell helyek kialakitása
 saját story import
-Endingek megírása és lekodolása
+Endingek megírása és lekódolása
 
 
 
