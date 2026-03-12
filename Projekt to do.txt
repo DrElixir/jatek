@@ -5,6 +5,9 @@ saját változok behozatal
 a saját  ASCII modell helyek kialakitása
 saját story import
 Endingek megírása és lekódolása
+A szinteket összekötni
+minden szintnek külön animacio 
+Egy univerzális frame kialaktása egy ajtoval ami bármelyik floorra jó
 
 
 
