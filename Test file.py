@@ -176,7 +176,12 @@ def search_room():
         slow("Most nem találtál semmit.")
 
 def dark_corridor_event():
-    print(dark_hall)
+    frames = [dark_hall, dark_hall2, dark_hall3]
+
+    for frame in frames:
+        clear()
+        print(frame)
+        time.sleep(0.4)
 
     if "gyertya" not in inventory:
         slow("Túl sötét... Kell valami fény.")
@@ -184,6 +189,7 @@ def dark_corridor_event():
 
     slow("A gyertya halványan világít...")
     slow("Találsz egy puzzle darabot.")
+
     global puzzle_pieces
     puzzle_pieces += 1
 
