@@ -193,6 +193,30 @@ def dark_corridor_event():
     global puzzle_pieces
     puzzle_pieces += 1
 
+    if random.randint(1,4) == 1:
+        enemy_chase()
+
+def enemy_chase():
+    frames = [dark_hall, dark_hall2, dark_hall3]
+
+    slow("Valamit hallasz mögötted...")
+    time.sleep(1)
+    slow("Lépések...")
+    time.sleep(1)
+    slow("VALAKI FUT UTÁNAD!")
+
+    for i in range(6):
+        clear()
+        print(frames[i % 3])
+        time.sleep(0.25)
+
+    if random.randint(1,3) == 1:
+        slow("Elkaptak...")
+        slow("ROSSZ BEFEJEZÉS")
+        exit()
+    else:
+        slow("Sikerült elmenekülnöd!")
+
 def phone_puzzle():
     global phone_unlocked
 
