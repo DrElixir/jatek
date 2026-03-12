@@ -1,6 +1,7 @@
 import time
 import random
 import os
+import math
 
 inventory = []
 puzzle_pieces = 0
