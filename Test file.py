@@ -150,7 +150,7 @@ floor_2 = r"""
 #room art
 
 
-# No nyulka piszka
+# Intro rész
 
 def intro():
     clear()
@@ -159,10 +159,12 @@ def intro():
     slow("Nem emlékszel semmire.")
     slow("Egy elhagyott kórházban ébredsz.")
     slow("Ki kell jutnod a ZÁRT OSZTÁLYRÓL.\n")
-
+ 
+ #inventory system
 def show_inventory():
     print("\nInventory:", inventory)
 
+#Search system
 def search_room():
     items = ["csont", "fecskendő", "gyertya"]
     item = random.choice(items)
@@ -175,7 +177,8 @@ def search_room():
     else:
         slow("Most nem találtál semmit.")
 
-def dark_corridor_event():
+#Folyoso random chase function and animation
+def corridor_event():
     frames = [dark_hall, dark_hall2, dark_hall3]
 
     for frame in frames:
@@ -217,6 +220,7 @@ def enemy_chase():
     else:
         slow("Sikerült elmenekülnöd!")
 
+#Puzzles
 def phone_puzzle():
     global phone_unlocked
 
@@ -261,6 +265,7 @@ def balance_puzzle():
     else:
         slow("Otthagyod.")
 
+#Endings and choice making
 def ending():
     slow("\nElérted a kijáratot...")
 
@@ -300,7 +305,7 @@ def game_loop():
             search_room()
 
         elif choice == "2":
-            dark_corridor_event()
+            corridor_event()
 
         elif choice == "3":
             phone_puzzle()
