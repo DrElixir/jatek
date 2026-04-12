@@ -1,290 +1,252 @@
 import time
 import random
 import os
-import math
+
+# ===================== ALAP ADATOK =====================
 
 inventory = []
-puzzle_pieces = 0
+puzzle_pieces = []
+
 phone_unlocked = False
-balance_done = False
+balance_solved = False
+
+
+# ===================== SEGÉD FÜGGVÉNYEK =====================
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
+
 def slow(text):
-    for c in text:
-        print(c, end="", flush=True)
+    for char in text:
+        print(char, end="", flush=True)
         time.sleep(0.015)
     print()
 
-hospital_art = r"""
-----------------------------------------------------------------------------------------
+
+def think(text):
+    slow(f"[...] {text}")
 
 
+# ===================== ASCII ART =====================
 
-
-
-
------------------------------------------------------------------------------------------
+dark_frames = [
 """
-
-room_art = r"""
-+--------------------------+
-|        KÓRTEREM          |
-|                          |
-|    [ÁGY]        [ÁGY]    |
-|                          |
-+-------------------------+|                          
-|         ____             |
-|        |____|  asztal    |
-|                          |
-+--------------------------+
+#################################
+#                               #
+#        O                      #
+#       /|\\                     #
+#       / \\                     #
+#                               #
+#################################
+""",
 """
-
-#Item art
-
-phone_art = r"""
-   ___________
-  |  _______  |
-  | |       | |
-  | |       | |
-  | |_______| |
-  | 1 2 3 4   |
-  |___________|
+#################################
+#                               #
+#           O                   #
+#          /|\\                  #
+#          / \\                  #
+#                               #
+#################################
+""",
 """
-
-scale_art = r"""
-        _______
-       /       \
-      /         \
-     /___________\
-        |     |
-      __|_____|__
-     |           |
-     |   MÉRLEG  |
-     |___________|
+#################################
+#                               #
+#               O               #
+#              /|\\              #
+#              / \\              #
+#                               #
+#################################
 """
-
-bone_art = r"""
-     __
- ___/  \___
-|          |
- \__    __/
-    |  |
-    |__|
-"""
-
-#item art
-
-#room art
-
-dark_hall = r"""
-#############################################
-#                                           #
-#     O                                     #
-#\   \|/                                    #
-# \  / \                                    #
-#  \                                        #
-#                                           #
-#############################################
-"""
-dark_hall2 = r"""
-#############################################
-#                                           #
-#              O                            #
-#\            \|/                           #
-# \           / \                           #
-#  \                                        #
-#                                           #
-#############################################
-"""
-dark_hall3 = r"""
-#############################################
-#                                           #
-#                                 O         #
-#\                               \|/        #
-# \                              / \        #
-#  \                                        #
-#                                           #
-#############################################
-"""
-basement = r"""
-#############################################
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#############################################
-"""
-ground_floor = r"""
-#############################################
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#############################################
-"""
-floor_1 = r"""
-#############################################
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#############################################
-"""
-floor_2 = r"""
-#############################################
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#                                           #
-#############################################
-"""
-
-#room art
+]
 
 
-# Intro rész
+# ===================== JÁTÉK KEZDETE =====================
 
 def intro():
     clear()
-    print(hospital_art)
+    slow("ZÁRT OSZTÁLY")
     slow("Éjjeli műszak...")
     slow("Nem emlékszel semmire.")
-    slow("Egy elhagyott kórházban ébredsz.")
-    slow("Ki kell jutnod a ZÁRT OSZTÁLYRÓL.\n")
- 
- #inventory system
+    slow("Egy hideg kórteremben ébredsz.")
+    think("Hogy kerültem ide?")
+
+
+# ===================== INVENTORY =====================
+
 def show_inventory():
-    print("\nInventory:", inventory)
-
-#Search system
-def search_room():
-    items = ["csont", "fecskendő", "gyertya"]
-    item = random.choice(items)
-
-    print(room_art)
-
-    if item not in inventory:
-        slow(f"Találtál egy tárgyat: {item}")
-        inventory.append(item)
-    else:
-        slow("Most nem találtál semmit.")
-
-#Folyoso random chase function and animation
-def corridor_event():
-    frames = [dark_hall, dark_hall2, dark_hall3]
-
-    for frame in frames:
-        clear()
-        print(frame)
-        time.sleep(0.4)
-
-    if "gyertya" not in inventory:
-        slow("Túl sötét... Kell valami fény.")
+    if not inventory:
+        slow("Nincs nálad semmi.")
         return
 
-    slow("A gyertya halványan világít...")
-    slow("Találsz egy puzzle darabot.")
+    slow("Nálad van:")
+    for item in inventory:
+        print("-", item)
 
-    global puzzle_pieces
-    puzzle_pieces += 1
+    print("Puzzle darabok:", puzzle_pieces)
 
-    if random.randint(1,4) == 1:
-        enemy_chase()
+
+# ===================== KERESÉS =====================
+
+def search_room():
+    possible_items = ["csont", "gyertya", "fecskendő", "kulcs"]
+    found_item = random.choice(possible_items)
+
+    slow("Körbenézel a szobában...")
+
+    if found_item in inventory:
+        slow("Nem találsz semmi újat.")
+        return
+
+    inventory.append(found_item)
+
+    if found_item == "csont":
+        slow("Valami roppan a lábad alatt.")
+        slow("Egy csont.")
+        think("Ez nem jó jel...")
+    elif found_item == "gyertya":
+        slow("Találsz egy gyertyát.")
+        think("Legalább látni fogok.")
+    elif found_item == "fecskendő":
+        slow("Egy használt fecskendő.")
+        think("Ki használta ezt...?")
+    elif found_item == "kulcs":
+        slow("Egy rozsdás kulcs.")
+        think("Ez még jól jöhet.")
+
+
+# ===================== ÜLDÖZÉS =====================
 
 def enemy_chase():
-    frames = [dark_hall, dark_hall2, dark_hall3]
-
-    slow("Valamit hallasz mögötted...")
-    time.sleep(1)
-    slow("Lépések...")
-    time.sleep(1)
-    slow("VALAKI FUT UTÁNAD!")
+    slow("Valamit hallasz...")
+    time.sleep(0.5)
+    slow("Lépések.")
+    time.sleep(0.5)
+    slow("FUTNOD KELL!")
 
     for i in range(6):
         clear()
-        print(frames[i % 3])
-        time.sleep(0.25)
+        print(dark_frames[i % 3])
+        time.sleep(0.2)
 
-    if random.randint(1,3) == 1:
+    if random.randint(1, 2) == 1:
         slow("Elkaptak...")
-        slow("ROSSZ BEFEJEZÉS")
-        exit()
+        bad_ending()
     else:
-        slow("Sikerült elmenekülnöd!")
+        slow("Sikerült elmenekülni.")
 
-#Puzzles
-def phone_puzzle():
+
+# ===================== SÖTÉT FOLYOSÓ =====================
+
+def dark_corridor():
+    slow("Belépsz a sötét folyosóra...")
+
+    if "gyertya" not in inventory:
+        slow("Semmit nem látsz.")
+        think("Kell valami fény.")
+        return
+
+    slow("A gyertya fénye remeg a falakon.")
+
+    piece = random.randint(1, 4)
+
+    if piece not in puzzle_pieces:
+        puzzle_pieces.append(piece)
+        slow(f"Egy szám van a falra karcolva: {piece}")
+        think("Ez talán egy kód része...")
+    else:
+        slow("Csak ugyanazok a jelek mindenhol.")
+
+    # random chase
+    if random.randint(1, 3) == 1:
+        enemy_chase()
+
+
+# ===================== TELEFON =====================
+
+def phone():
     global phone_unlocked
 
-    print(phone_art)
+    slow("Egy régi telefont találsz.")
 
     if phone_unlocked:
-        slow("A telefon már fel van oldva.")
+        slow("Már fel van oldva.")
         return
 
-    slow("A telefon zárolva van.")
-    code = "4312"
+    if len(puzzle_pieces) < 4:
+        slow("Hiányzik pár szám...")
+        return
 
-    guess = input("Add meg a 4 jegyű kódot: ")
+    correct_code = "".join(map(str, sorted(puzzle_pieces)))
 
-    if guess == code:
-        slow("Telefon feloldva!")
+    guess = input("Kód: ")
+
+    if guess == correct_code:
+        slow("A képernyő felvillan...")
+        slow("Sikerült feloldani.")
         phone_unlocked = True
+        inventory.append("kórház_kód")
     else:
-        slow("Rossz kód.")
+        slow("Nem történik semmi.")
 
-def balance_puzzle():
-    global balance_done
 
-    print(scale_art)
+# ===================== MÉRLEG =====================
 
-    if balance_done:
-        slow("A mérleg már meg van oldva.")
+def balance():
+    global balance_solved
+
+    slow("Egy régi mérleg áll előtted.")
+
+    if balance_solved:
+        slow("Már beállítottad.")
         return
 
-    if "csont" not in inventory:
-        slow("Valami hiányzik a mérleghez...")
-        return
-
-    print(bone_art)
-
-    choice = input("Ráteszed a csontot a mérlegre? (i/n) ")
-
-    if choice == "i":
-        slow("A mérleg kiegyenlítődik...")
-        slow("Egy ajtó kinyílik!")
-        balance_done = True
+    if "csont" in inventory and "fecskendő" in inventory:
+        slow("Ráhelyezed a tárgyakat...")
+        time.sleep(1)
+        slow("A mérleg lassan kiegyenlítődik.")
+        balance_solved = True
     else:
-        slow("Otthagyod.")
+        slow("Valami hiányzik.")
 
-#Endings and choice making
-def ending():
-    slow("\nElérted a kijáratot...")
 
-    if phone_unlocked and balance_done:
-        slow("Megoldottad az összes rejtvényt.")
-        slow("SIKERÜLT MEGSZÖKNÖD.")
-        slow("JÓ BEFEJEZÉS")
-        return True
+# ===================== BEFEJEZÉSEK =====================
 
-    if "fecskendő" in inventory and phone_unlocked:
-        slow("Egy titkos ajtót találsz.")
-        slow("TITKOS BEFEJEZÉS")
-        return True
+def good_ending():
+    slow("Az ajtó lassan kinyílik.")
+    slow("Friss levegő csap meg.")
+    slow("Kijutottál.")
+    slow("JÓ BEFEJEZÉS")
+    exit()
 
-    slow("Az ajtó bezárul mögötted.")
+
+def bad_ending():
+    slow("Az ajtó nem nyílik.")
+    slow("Valami közeledik a sötétből...")
     slow("ROSSZ BEFEJEZÉS")
-    return True
+    exit()
+
+
+def secret_ending():
+    slow("Találsz egy rejtett ajtót.")
+    slow("Egy titkos folyosón kiszöksz.")
+    slow("TITKOS BEFEJEZÉS")
+    exit()
+
+
+# ===================== KIJÁRAT =====================
+
+def try_exit():
+    if phone_unlocked and balance_solved:
+        good_ending()
+
+    if "kórház_kód" in inventory and "kulcs" in inventory:
+        secret_ending()
+
+    bad_ending()
+
+
+# ===================== Játék alap =====================
 
 def game_loop():
     intro()
@@ -294,35 +256,36 @@ def game_loop():
 1 - Szoba átkutatása
 2 - Sötét folyosó
 3 - Telefon
-4 - Mérleg puzzle
+4 - Mérleg
 5 - Inventory
 6 - Kijárat
 """)
 
         choice = input("> ")
-
         clear()
 
         if choice == "1":
             search_room()
 
         elif choice == "2":
-            corridor_event()
+            dark_corridor()
 
         elif choice == "3":
-            phone_puzzle()
+            phone()
 
         elif choice == "4":
-            balance_puzzle()
+            balance()
 
         elif choice == "5":
             show_inventory()
 
         elif choice == "6":
-            if ending():
-                break
+            try_exit()
 
         else:
-            slow("Ismeretlen parancs.")
+            slow("Nem értem.")
+
+
+# ===================== INDÍTÁS =====================
 
 game_loop()
