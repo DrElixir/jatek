@@ -7,8 +7,8 @@ import os
 inventory = []
 puzzle_pieces = []
 
-phone_unlocked = False
-balance_solved = False
+telefon_feloldva = False
+merleg_megoldva = False
 
 
 # ===================== Base függvények =====================
@@ -88,29 +88,29 @@ def show_inventory():
 
 # ===================== Tárgy keresés =====================
 
-def search_room():
-    possible_items = ["csont", "gyertya", "fecskendő", "kulcs"]
-    found_item = random.choice(possible_items)
+def szoba_kutatas():
+    lehetseges_targyak = ["csont", "gyertya", "fecskendő", "kulcs"]
+    talalt_targy = random.choice(lehetseges_targyak)
 
     slow("Körbenézel a szobában...")
 
-    if found_item in inventory:
+    if talalt_targy in inventory:
         slow("Nem találsz semmi újat.")
         return
 
-    inventory.append(found_item)
+    inventory.append(talalt_targy)
 
-    if found_item == "csont":
+    if talalt_targy == "csont":
         slow("Valami roppan a lábad alatt.")
         slow("Egy csont.")
         think("Ez nem jó jel...")
-    elif found_item == "gyertya":
+    elif talalt_targy == "gyertya":
         slow("Találsz egy gyertyát.")
         think("Legalább látni fogok.")
-    elif found_item == "fecskendő":
+    elif talalt_targy == "fecskendő":
         slow("Egy használt fecskendő.")
         think("Ki használta ezt...?")
-    elif found_item == "kulcs":
+    elif talalt_targy == "kulcs":
         slow("Egy rozsdás kulcs.")
         think("Ez még jól jöhet.")
 
@@ -140,7 +140,7 @@ def enemy_chase():
 
 # ===================== Folyosó =====================
 
-def dark_corridor():
+def sotet_folyoso():
     slow("Belépsz a sötét folyosóra...")
 
     if "gyertya" not in inventory:
@@ -166,12 +166,12 @@ def dark_corridor():
 
 # ===================== Telefon =====================
 
-def phone():
-    global phone_unlocked
+def telefon():
+    global telefon_feloldva
 
     slow("Egy régi telefont találsz.")
 
-    if phone_unlocked:
+    if telefon_feloldva:
         slow("Már fel van oldva.")
         return
 
@@ -186,7 +186,7 @@ def phone():
     if guess == correct_code:
         slow("A képernyő felvillan...")
         slow("Sikerült feloldani.")
-        phone_unlocked = True
+        telefon_feloldva = True
         inventory.append("kórház_kód")
     else:
         slow("Nem történik semmi.")
@@ -194,12 +194,12 @@ def phone():
 
 # ===================== Mérleg puzzlr =====================
 
-def balance():
-    global balance_solved
+def merleg():
+    global merleg_megoldva
 
     slow("Egy régi mérleg áll előtted.")
 
-    if balance_solved:
+    if merleg_megoldva:
         slow("Már beállítottad.")
         return
 
@@ -207,7 +207,7 @@ def balance():
         slow("Ráhelyezed a tárgyakat...")
         time.sleep(1)
         slow("A mérleg lassan kiegyenlítődik.")
-        balance_solved = True
+        merleg_megoldva = True
     else:
         slow("Valami hiányzik.")
 
@@ -242,7 +242,7 @@ def secret_ending():
 # ===================== Kijárat =====================
 
 def try_exit():
-    if phone_unlocked and balance_solved:
+    if telefon_feloldva and merleg_megoldva:
         good_ending()
 
     if "kórház_kód" in inventory and "kulcs" in inventory:
@@ -270,16 +270,16 @@ def game_loop():
         clear()
 
         if choice == "1":
-            search_room()
+            szoba_kutatas()
 
         elif choice == "2":
-            dark_corridor()
+            sotet_folyoso()
 
         elif choice == "3":
-            phone()
+            telefon()
 
         elif choice == "4":
-            balance()
+            merleg()
 
         elif choice == "5":
             show_inventory()
