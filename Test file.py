@@ -219,7 +219,7 @@ def good_ending():
     slow("Az ajtó lassan kinyílik.")
     slow("Friss levegő csap meg.")
     slow("Kijutottál.")
-    slow("JÓ BEFEJEZÉS")
+    slow("A SZABADSÁG SZAGA ÉDES")
     exit()
 
 
@@ -227,7 +227,7 @@ def bad_ending():
     os.system('color 4')
     slow("Az ajtó nem nyílik.")
     slow("Valami közeledik a sötétből...")
-    slow("ROSSZ BEFEJEZÉS")
+    slow("MEGHALTÁL")
     exit()
 
 
