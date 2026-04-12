@@ -2,7 +2,7 @@ import time
 import random
 import os
 
-# ===================== ALAP ADATOK =====================
+# ===================== Alap változók =====================
 
 inventory = []
 puzzle_pieces = []
@@ -11,7 +11,7 @@ phone_unlocked = False
 balance_solved = False
 
 
-# ===================== SEGÉD FÜGGVÉNYEK =====================
+# ===================== Base függvények =====================
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -28,7 +28,7 @@ def think(text):
     slow(f"[...] {text}")
 
 
-# ===================== ASCII ART =====================
+# ===================== Folyosó kinézet =====================
 
 dark_frames = [
 """
@@ -61,7 +61,7 @@ dark_frames = [
 ]
 
 
-# ===================== JÁTÉK KEZDETE =====================
+# ===================== Start =====================
 
 def intro():
     clear()
@@ -72,7 +72,7 @@ def intro():
     think("Hogy kerültem ide?")
 
 
-# ===================== INVENTORY =====================
+# ===================== Inv =====================
 
 def show_inventory():
     if not inventory:
@@ -86,7 +86,7 @@ def show_inventory():
     print("Puzzle darabok:", puzzle_pieces)
 
 
-# ===================== KERESÉS =====================
+# ===================== Tárgy keresés =====================
 
 def search_room():
     possible_items = ["csont", "gyertya", "fecskendő", "kulcs"]
@@ -115,7 +115,7 @@ def search_room():
         think("Ez még jól jöhet.")
 
 
-# ===================== ÜLDÖZÉS =====================
+# ===================== Chasing mechanic =====================
 
 def enemy_chase():
     slow("Valamit hallasz...")
@@ -136,7 +136,7 @@ def enemy_chase():
         slow("Sikerült elmenekülni.")
 
 
-# ===================== SÖTÉT FOLYOSÓ =====================
+# ===================== Folyosó =====================
 
 def dark_corridor():
     slow("Belépsz a sötét folyosóra...")
@@ -162,7 +162,7 @@ def dark_corridor():
         enemy_chase()
 
 
-# ===================== TELEFON =====================
+# ===================== Telefon =====================
 
 def phone():
     global phone_unlocked
@@ -190,7 +190,7 @@ def phone():
         slow("Nem történik semmi.")
 
 
-# ===================== MÉRLEG =====================
+# ===================== Mérleg puzzlr =====================
 
 def balance():
     global balance_solved
@@ -210,7 +210,7 @@ def balance():
         slow("Valami hiányzik.")
 
 
-# ===================== BEFEJEZÉSEK =====================
+# ===================== Endingek =====================
 
 def good_ending():
     slow("Az ajtó lassan kinyílik.")
@@ -234,7 +234,7 @@ def secret_ending():
     exit()
 
 
-# ===================== KIJÁRAT =====================
+# ===================== Kijárat =====================
 
 def try_exit():
     if phone_unlocked and balance_solved:
@@ -246,7 +246,7 @@ def try_exit():
     bad_ending()
 
 
-# ===================== Játék alap =====================
+# ===================== Játék alapja =====================
 
 def game_loop():
     intro()
