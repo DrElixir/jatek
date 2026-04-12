@@ -10,9 +10,6 @@ puzzle_pieces = []
 phone_unlocked = False
 balance_solved = False
 
-# STORY állapot
-memories_found = 0
-
 
 # ===================== Base függvények =====================
 
@@ -29,25 +26,6 @@ def slow(text):
 
 def think(text):
     slow(f"[...] {text}")
-
-
-# ===================== STORY (EMLÉKEK) =====================
-
-def memory_event():
-    global memories_found
-
-    memories = [
-        "Fehér falak. Kiabálás. Valakit lefognak.",
-        "Egy hang: 'Adja be az injekciót.'",
-        "A kezedben egy fecskendő.",
-        "Egy beteg rád néz: 'Ne tedd...'",
-        "Egy név villan: ORVOS"
-    ]
-
-    if memories_found < len(memories):
-        slow("\n[EMLÉK FELVILLAN]")
-        slow(memories[memories_found])
-        memories_found += 1
 
 
 # ===================== Folyosó kinézet =====================
@@ -131,8 +109,7 @@ def search_room():
         think("Legalább látni fogok.")
     elif found_item == "fecskendő":
         slow("Egy használt fecskendő.")
-        slow("Hirtelen bevillan egy kép...")
-        memory_event()
+        think("Ki használta ezt...?")
     elif found_item == "kulcs":
         slow("Egy rozsdás kulcs.")
         think("Ez még jól jöhet.")
@@ -151,8 +128,6 @@ def enemy_chase():
         clear()
         print(dark_frames[i % 3])
         time.sleep(0.2)
-
-    slow('"TE VOLTÁL AZ!"')
 
     if random.randint(1, 5) == 1:
         clear()
@@ -181,7 +156,6 @@ def dark_corridor():
         puzzle_pieces.append(piece)
         slow(f"Egy szám van a falra karcolva: {piece}")
         think("Ez talán egy kód része...")
-        memory_event()
     else:
         slow("Csak ugyanazok a jelek mindenhol.")
 
@@ -214,13 +188,6 @@ def phone():
         slow("Sikerült feloldani.")
         phone_unlocked = True
         inventory.append("kórház_kód")
-
-        slow("\nEgy jegyzet jelenik meg:")
-        slow('"Projekt: TISZTÍTÁS"')
-        slow('"Alanyok: 12 fő"')
-        slow('"Eredmény: instabil"')
-        slow('"Felelős: TE"')
-        think("Ez... én voltam?")
     else:
         slow("Nem történik semmi.")
 
@@ -241,7 +208,6 @@ def balance():
         time.sleep(1)
         slow("A mérleg lassan kiegyenlítődik.")
         balance_solved = True
-        memory_event()
     else:
         slow("Valami hiányzik.")
 
@@ -252,12 +218,8 @@ def good_ending():
     os.system('color 2')
     slow("Az ajtó lassan kinyílik.")
     slow("Friss levegő csap meg.")
-    slow("Kijutsz...")
-
-    slow("És most már emlékszel.")
-    slow("Mindenre.")
-
-    slow("JÓ BEFEJEZÉS")
+    slow("Kijutottál.")
+    slow("A SZABADSÁG SZAGA")
     exit()
 
 
@@ -265,7 +227,6 @@ def bad_ending():
     os.system('color 4')
     slow("Az ajtó nem nyílik.")
     slow("Valami közeledik a sötétből...")
-    slow('"Nem mehetsz el..."')
     slow("MEGHALTÁL")
     exit()
 
@@ -273,12 +234,7 @@ def bad_ending():
 def secret_ending():
     os.system('color 6')
     slow("Találsz egy rejtett ajtót.")
-    slow("Egy szobába jutsz tele monitorokkal.")
-    slow("Kamerák mindenhol.")
-
-    slow("Ez az egész... egy kísérlet volt.")
-    slow("És még mindig tart.")
-
+    slow("Egy titkos folyosón kiszöksz.")
     slow("TITKOS BEFEJEZÉS")
     exit()
 
