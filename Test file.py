@@ -129,7 +129,9 @@ def enemy_chase():
         print(dark_frames[i % 3])
         time.sleep(0.2)
 
-    if random.randint(1, 2) == 1:
+    if random.randint(1, 5) == 1:
+        clear()
+        os.system('color 4')
         slow("Elkaptak...")
         bad_ending()
     else:
@@ -213,6 +215,7 @@ def balance():
 # ===================== BEFEJEZÉSEK =====================
 
 def good_ending():
+    os.system('color 2')
     slow("Az ajtó lassan kinyílik.")
     slow("Friss levegő csap meg.")
     slow("Kijutottál.")
@@ -221,6 +224,7 @@ def good_ending():
 
 
 def bad_ending():
+    os.system('color 4')
     slow("Az ajtó nem nyílik.")
     slow("Valami közeledik a sötétből...")
     slow("ROSSZ BEFEJEZÉS")
@@ -228,6 +232,7 @@ def bad_ending():
 
 
 def secret_ending():
+    os.system('color 6')
     slow("Találsz egy rejtett ajtót.")
     slow("Egy titkos folyosón kiszöksz.")
     slow("TITKOS BEFEJEZÉS")
