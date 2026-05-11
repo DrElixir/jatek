@@ -3,6 +3,8 @@ import time
 import random
 import sys
 
+# Alap változók
+
 inventory = []
 kod_darabok = []
 
@@ -13,6 +15,8 @@ labor_elerheto = False
 memories_found = 0
 
 helyes_kod = [str(x) for x in random.sample(range(1, 10), 4)]
+
+# Segéd függvények
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -28,6 +32,8 @@ def think(text):
 
 def pause(sec=1):
     time.sleep(sec)
+
+# Chase animáció frame-ek
 
 frames = [
 r"""
@@ -61,6 +67,8 @@ r"""
 """
 ]
 
+# Story emlékek
+
 memories = [
     "Fehér falak. Valaki sikít.",
     "Egy hang: 'Adja be az injekciót!'.",
@@ -72,6 +80,8 @@ memories = [
     "Egy hang a sötétben: 'Nem emlékezhet.'"
 ]
 
+# Emlék rendszer
+
 def memory_event():
     global memories_found
 
@@ -79,6 +89,8 @@ def memory_event():
         slow("\n[EMLÉK FELVILLAN]", 0.03)
         slow(memories[memories_found], 0.03)
         memories_found += 1
+
+# Intro jelenet
 
 def intro():
     clear()
@@ -101,6 +113,8 @@ def intro():
     slow("Egy hideg kórteremben fekszel.")
     slow("Az ajtó résnyire nyitva van.")
 
+# Inventory megjelenítés
+
 def show_inventory():
     slow("===== INVENTORY =====")
 
@@ -113,6 +127,8 @@ def show_inventory():
     if kod_darabok:
         slow("\nKóddarabok:")
         slow(" ".join(kod_darabok))
+
+# Szoba átkutatás
 
 def szoba_kutatas():
 
@@ -159,6 +175,8 @@ def szoba_kutatas():
     if random.randint(1, 2) == 1:
         memory_event()
 
+# Menekülős jelenet
+
 def enemy_chase():
 
     slow("Valamit hallasz...")
@@ -186,6 +204,8 @@ def enemy_chase():
         slow("Megmenekültél.")
     else:
         bad_ending()
+
+# Sötét folyosó
 
 def sotet_folyoso():
 
@@ -218,6 +238,8 @@ def sotet_folyoso():
 
     if random.randint(1, 5) == 1:
         enemy_chase()
+
+# Telefon puzzle
 
 def telefon():
     global telefon_feloldva
@@ -261,6 +283,8 @@ def telefon():
     else:
         slow("HIBÁS KÓD")
 
+# Mérleg puzzle
+
 def merleg():
     global merleg_megoldva
     global labor_elerheto
@@ -290,6 +314,8 @@ def merleg():
     else:
         slow("Valami hiányzik.")
 
+# Labor szoba
+
 def labor():
 
     if not labor_elerheto:
@@ -318,6 +344,8 @@ def labor():
     if random.randint(1, 3) == 1:
         enemy_chase()
 
+# Tükör szoba
+
 def tukor_szoba():
 
     slow("Belépsz egy régi mosdóba.")
@@ -335,6 +363,8 @@ def tukor_szoba():
 
     else:
         slow("Csak a saját remegő alakodat látod.")
+
+# Jó ending
 
 def good_ending():
 
@@ -364,6 +394,8 @@ def good_ending():
 
     sys.exit()
 
+# Rossz ending
+
 def bad_ending():
 
     clear()
@@ -381,6 +413,8 @@ def bad_ending():
     slow("\nROSSZ BEFEJEZÉS")
 
     sys.exit()
+
+# Titkos ending
 
 def secret_ending():
 
@@ -414,6 +448,8 @@ def secret_ending():
 
     sys.exit()
 
+# Kijárat ellenőrzés
+
 def try_exit():
 
     if telefon_feloldva and merleg_megoldva and "feljegyzés" in inventory:
@@ -425,6 +461,8 @@ def try_exit():
     else:
         slow("Az ajtó nem nyílik.")
         think("Még nincs vége.")
+
+# Fő játék loop
 
 def game_loop():
 
@@ -475,5 +513,7 @@ def game_loop():
 
         else:
             slow("Nem értem.")
+
+# Játék indítása
 
 game_loop()
