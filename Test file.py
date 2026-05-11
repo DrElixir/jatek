@@ -698,17 +698,3 @@ def game_loop():
 
 
 game_loop()
-```
-
-## TOVÁBBI FEJLESZTÉS ÖTLETEK
-
-* mentés rendszer
-* sanity mechanic
-* jumpscare system
-* háttérhangok
-* több monster
-* procedural folyosók
-* random endingek
-* entity AI
-* inventory UI
-* combat system
