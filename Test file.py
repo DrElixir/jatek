@@ -1,118 +1,7 @@
-# ZÁRT OSZTÁLY — 15 PERCES TERMINÁLOS HORROR JÁTÉK
-
-Ez egy teljesen újraírt, hosszabb, történetközpontú verzió.
-A játék kb. 10–15 perces gameplayre van felépítve:
-
-* több helyszín
-* több story event
-* memory rendszer
-* chase sequence
-* puzzle progression
-* több ending
-* jobb pacing
-* stabilabb kód
-* nincs softlock
-* nincs unreachable ending
-
-A játék Python terminálban fut.
-
-## Főbb újítások
-
-### Story
-
-A játékos fokozatosan jön rá:
-
-* ki ő
-* mi történt a kórházban
-* mit jelent a „Projekt Tisztítás”
-* hogy valóban orvos volt-e
-
-### Új helyszínek
-
-* Sötét folyosó
-* Kazánház
-* Tükörszoba
-* Labor
-* Rejtett lift
-
-### Új mechanikák
-
-* menekülős jelenet
-* random események
-* progresszív emlékek
-* inventory progression
-* több ending
-
-### Endingek
-
-* Jó ending
-* Rossz ending
-* Titkos ending
-
-## Fontos javítások
-
-* minden változó inicializálva van
-* nincs végtelen item repeat
-* nincs softlock
-* nincs crash
-* Windows/Linux kompatibilis
-* input hibák javítva
-* stabilabb inventory rendszer
-
-## Futtatás
-
-```bash
-python game.py
-```
-
-## Ajánlott futtatás
-
-Windows Terminal vagy VS Code terminal.
-
-## Extra ötletek későbbre
-
-* sanity rendszer
-* save/load
-* zene és hangok
-* ASCII jumpscare
-* procedurális folyosók
-* több entity
-* boss encounter
-* timed escape sequence
-
-## A játék struktúrája
-
-```text
-INTRO
- ↓
-SZOBA
- ↓
-FOLYOSÓ
- ↓
-KÓD DARABOK
- ↓
-TELEFON
- ↓
-MÉRLEG PUZZLE
- ↓
-KAZÁNHÁZ
- ↓
-TÜKÖRSZOBA
- ↓
-ENDING
-```
-
-# TELJES KÓD
-
-```python
 import os
 import time
 import random
 import sys
-
-# =====================================================
-# ALAP VÁLTOZÓK
-# =====================================================
 
 inventory = []
 kod_darabok = []
@@ -125,15 +14,8 @@ memories_found = 0
 
 helyes_kod = [str(x) for x in random.sample(range(1, 10), 4)]
 
-# =====================================================
-# SEGÉD FÜGGVÉNYEK
-# =====================================================
-
-
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
-
-
 
 def slow(text, speed=0.02):
     for char in text:
@@ -141,20 +23,11 @@ def slow(text, speed=0.02):
         time.sleep(speed)
     print()
 
-
-
 def think(text):
     slow(f"[...] {text}", 0.03)
 
-
-
 def pause(sec=1):
     time.sleep(sec)
-
-
-# =====================================================
-# ASCII ANIMÁCIÓ
-# =====================================================
 
 frames = [
 r"""
@@ -188,10 +61,6 @@ r"""
 """
 ]
 
-# =====================================================
-# STORY EMLÉKEK
-# =====================================================
-
 memories = [
     "Fehér falak. Valaki sikít.",
     "Egy hang: 'Adja be az injekciót!'.",
@@ -203,22 +72,13 @@ memories = [
     "Egy hang a sötétben: 'Nem emlékezhet.'"
 ]
 
-
-
 def memory_event():
     global memories_found
 
     if memories_found < len(memories):
-        slow("
-[EMLÉK FELVILLAN]", 0.03)
+        slow("\n[EMLÉK FELVILLAN]", 0.03)
         slow(memories[memories_found], 0.03)
         memories_found += 1
-
-
-# =====================================================
-# INTRO
-# =====================================================
-
 
 def intro():
     clear()
@@ -241,12 +101,6 @@ def intro():
     slow("Egy hideg kórteremben fekszel.")
     slow("Az ajtó résnyire nyitva van.")
 
-
-# =====================================================
-# INVENTORY
-# =====================================================
-
-
 def show_inventory():
     slow("===== INVENTORY =====")
 
@@ -257,15 +111,8 @@ def show_inventory():
             slow(f"- {item}")
 
     if kod_darabok:
-        slow("
-Kóddarabok:")
+        slow("\nKóddarabok:")
         slow(" ".join(kod_darabok))
-
-
-# =====================================================
-# SZOBA ÁTKUTATÁS
-# =====================================================
-
 
 def szoba_kutatas():
 
@@ -312,12 +159,6 @@ def szoba_kutatas():
     if random.randint(1, 2) == 1:
         memory_event()
 
-
-# =====================================================
-# CHASE SEQUENCE
-# =====================================================
-
-
 def enemy_chase():
 
     slow("Valamit hallasz...")
@@ -345,12 +186,6 @@ def enemy_chase():
         slow("Megmenekültél.")
     else:
         bad_ending()
-
-
-# =====================================================
-# FOLYOSÓ
-# =====================================================
-
 
 def sotet_folyoso():
 
@@ -384,12 +219,6 @@ def sotet_folyoso():
     if random.randint(1, 5) == 1:
         enemy_chase()
 
-
-# =====================================================
-# TELEFON
-# =====================================================
-
-
 def telefon():
     global telefon_feloldva
 
@@ -416,8 +245,7 @@ def telefon():
         slow("A képernyő felvillan.")
         slow("Sikerült feloldani.")
 
-        slow("
-Hangfelvétel indul:")
+        slow("\nHangfelvétel indul:")
         pause(1)
 
         slow('"12-es alany instabil."')
@@ -432,12 +260,6 @@ Hangfelvétel indul:")
 
     else:
         slow("HIBÁS KÓD")
-
-
-# =====================================================
-# MÉRLEG PUZZLE
-# =====================================================
-
 
 def merleg():
     global merleg_megoldva
@@ -468,12 +290,6 @@ def merleg():
     else:
         slow("Valami hiányzik.")
 
-
-# =====================================================
-# LABOR
-# =====================================================
-
-
 def labor():
 
     if not labor_elerheto:
@@ -502,12 +318,6 @@ def labor():
     if random.randint(1, 3) == 1:
         enemy_chase()
 
-
-# =====================================================
-# TÜKÖR SZOBA
-# =====================================================
-
-
 def tukor_szoba():
 
     slow("Belépsz egy régi mosdóba.")
@@ -525,12 +335,6 @@ def tukor_szoba():
 
     else:
         slow("Csak a saját remegő alakodat látod.")
-
-
-# =====================================================
-# ENDINGEK
-# =====================================================
-
 
 def good_ending():
 
@@ -556,12 +360,9 @@ def good_ending():
 
     slow('"DR. VARGA! ÁLLJON MEG!"')
 
-    slow("
-JÓ BEFEJEZÉS")
+    slow("\nJÓ BEFEJEZÉS")
 
     sys.exit()
-
-
 
 def bad_ending():
 
@@ -577,12 +378,9 @@ def bad_ending():
     slow("Valami megragad hátulról.")
     slow("A sötétség elnyel.")
 
-    slow("
-ROSSZ BEFEJEZÉS")
+    slow("\nROSSZ BEFEJEZÉS")
 
     sys.exit()
-
-
 
 def secret_ending():
 
@@ -612,16 +410,9 @@ def secret_ending():
     slow("Nem orvos vagy.")
     slow("Te vagy a beteg.")
 
-    slow("
-TITKOS BEFEJEZÉS")
+    slow("\nTITKOS BEFEJEZÉS")
 
     sys.exit()
-
-
-# =====================================================
-# KIJÁRAT
-# =====================================================
-
 
 def try_exit():
 
@@ -634,12 +425,6 @@ def try_exit():
     else:
         slow("Az ajtó nem nyílik.")
         think("Még nincs vége.")
-
-
-# =====================================================
-# GAME LOOP
-# =====================================================
-
 
 def game_loop():
 
@@ -690,11 +475,5 @@ def game_loop():
 
         else:
             slow("Nem értem.")
-
-
-# =====================================================
-# START
-# =====================================================
-
 
 game_loop()
